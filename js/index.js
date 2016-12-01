@@ -201,6 +201,7 @@
         $option.append($('<span>').text(result.formatted_address));
         $optionBox.append($option);
         $('.welcome').remove();
+        $('nav').removeClass('hidden');
       }
     });
   });

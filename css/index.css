@@ -1,0 +1,222 @@
+body {
+  background-color: #EEE;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h4, h5 {
+  margin: 0;
+}
+
+h4 {
+  font-size: 1.5em;
+}
+
+h5 {
+  color: #999;
+  font-size: 1.25em;
+  margin: 5px 0;
+}
+
+main {
+  position: absolute;
+  top: 56px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+/*nav ul {
+  display: flex;
+}*/
+
+.brand-logo {
+  font-family: 'Amatic SC', cursive;
+}
+
+.welcome .brand-logo {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #BBB;
+  border-radius: 50%;
+  font-size: 60px;
+  color: #888;
+  line-height: 200px;
+  text-align: center;
+  margin: 30px auto;
+}
+
+.card {
+  margin-top: 0;
+}
+
+.shortInfo {
+  display: flex;
+}
+
+.icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+  height: 50px;
+  width: 50px;
+  margin: 50px;
+}
+
+.icon.democrat {
+  background-image: url(../img/democrat_logo.svg);
+}
+
+.icon.republican {
+  background-image: url(../img/republican_logo.svg);
+}
+
+.icon.independent {
+  border-radius: 50%;
+  background-color: #FFC900;
+}
+
+.icon:hover {
+  opacity: .5;
+}
+
+.repInfo {
+  margin: 20px;
+}
+
+.party {
+  text-transform: capitalize;
+}
+
+.party.democrat {
+  color: #007DC5;
+}
+
+.party.republican {
+  color: #ED1C24;
+}
+
+.party.independent {
+  color: #FFC900;
+}
+
+.headshot {
+  height: 150px;
+}
+
+.statBox {
+  color: white;
+  display: none;
+  padding: 20px;
+}
+
+.open .statBox {
+  display: block;
+}
+
+.republican .statBox {
+  background-color: #ED1C24;
+}
+
+.democrat .statBox {
+  background-color: #007DC5;
+}
+
+.independent .statBox {
+  background-color: #FFC900;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  padding: .5em 0;
+}
+
+.stat i {
+  align-self: flex-start;
+  margin-right: 1ch;
+}
+
+.stat a {
+  color: white;
+}
+
+.loader {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.page {
+  overflow-y: scroll;
+  height: 100%;
+  padding: 20px 20px 0 20px;
+}
+
+.red {
+  background-color: #ED1C24;
+}
+
+.blue {
+  background-color: #007DC5;
+}
+
+.addrOption button {
+  margin-right: 20px;
+}
+
+.wide {
+  width: 100%;
+}
+
+#repContainer.loading {
+  overflow: hidden;
+}
+
+.back {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 15px;
+}
+
+#enterZip {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+#enterZip input {
+  font-size: 25px;
+  text-align: center;
+}
+
+#enterZip form {
+  width: 100%;
+}
+
+#enterZip .input-field {
+  margin: 30px 20px 20px 20px;
+}
+
+#optionBox {
+  width: 100%;
+}
+
+/* label color */
+ .input-field label {
+   color: #000;
+ }
+ /* label focus color */
+ .input-field input[type=text]:focus + label {
+   color: #007DC5;
+ }
+ /* label underline focus color */
+ .input-field input[type=text]:focus {
+   border-bottom: 1px solid #007DC5;
+   box-shadow: 0 1px 0 0 #007DC5;
+ }

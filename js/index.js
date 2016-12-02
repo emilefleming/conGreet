@@ -6,6 +6,7 @@
   const $loadBar = $('<div>').addClass('progress white').append($loadIn);
   const $loader = $('<div>').addClass('loader').append($loadBar);
   const myInfo = {};
+  const repData = {};
 
   const empty = function() {
     $repContainer.empty();
@@ -31,32 +32,27 @@
     });
   }
 
-  const renderMem = function(legislature, percTotal, i) {
-    if (i === legislature.length) {
-      $loader.remove();
-      $loadIn.width('0');
-      $('#repContainer').removeClass('loading');
-      return;
-    }
-    const member = legislature[i];
-    const percEach = 1 / legislature.length;
-    const rep = member.person;
-    const party = member.party.toLowerCase();
-    const $card = $('<div>').addClass('card hoverable').addClass(party);
-    const $shortInfo = $('<div>').addClass('shortInfo');
-    const $repInfo = $('<div>').addClass('repInfo');
-    const $statBox = $('<div>').addClass('row statBox');
-    const $contactStats = $('<div>').addClass('col s12 m6 l4');
-    const $socialStats = $('<div>').addClass('col s12 m6 l4');
-    const $nameTag = $('<h4>').text(`${rep.firstname} ${rep.lastname}`);
+  const renderBio = function(member) {
+    const $bioPage = $('<div>').addClass('page profile').attr('id', member);
+    const $namePic = $('<div>').addClass('namePic');
+    const $profileData = $('<div>').addClass('profileData');
+    const $title = $('<div>').addClass('title');
+    const $contactStats = $('<div>');
+    const $socialStats = $('<div>');
+    $bioPage.addClass(repData[member].party);
+    $('<img>').attr('src', 'https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/' + member + '.jpg').addClass('profilePic').appendTo($namePic);
+    const $name = $('<h3>').text(repData[member].name);
+    const $party = $('<h3>');
+    $party.text(' ' + repData[member].party).addClass('prt');
+    const $repTitle = $('<h4>').text(repData[member].description);
+    $namePic.append($name);
+    $bioPage.append($namePic);
+    $title.append($party);
+    $title.append($repTitle);
+    $profileData.append($title);
 
-    $('<img>').attr('src', 'https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/' + rep.bioguideid + '.jpg').addClass('headshot').appendTo($shortInfo);
-    $('<span>').addClass('party').addClass(party).text(' ' + party).appendTo($nameTag);
-    $repInfo.append($nameTag);
-    $('<h5>').text(`${member.description}`).appendTo($repInfo);
-
-    if (member.extra.address) {
-      const address = member.extra.address;
+    if (repData[member].address) {
+      const address = repData[member].address;
       let addrTop = '';
       let addrBot = '';
       const semiLoc = address.indexOf(';');
@@ -71,53 +67,100 @@
         addrBot = address.slice(washLoc, address.length)
       }
       $address.append($('<i>').addClass('mdi mdi-domain'));
-      $addrBox.append($('<div>').text(`${rep.firstname} ${rep.lastname}`));
+      $addrBox.append($('<div>').text(repData[member].name));
       $addrBox.append($('<div>').text(addrTop));
       $addrBox.append($('<div>').text(addrBot));
       $address.append($addrBox)
       $address.appendTo($contactStats);
     }
 
-    if (member.phone) {
+    if (repData[member].phone) {
       const $phone = $('<div>').addClass('stat');
       $phone.append($('<i>').addClass('mdi mdi-phone'));
-      $phone.append($('<a>').attr('href', 'tel:' + member.phone).text(member.phone));
+      $phone.append($('<a>').attr('href', 'tel:' + repData[member].phone).text(repData[member].phone));
       $phone.appendTo($contactStats);
     }
 
-    if (member.extra.contact_form) {
+    if (repData[member].contact) {
       const $contact = $('<div>').addClass('stat');
       $contact.append($('<i>').addClass('mdi mdi-email'));
-      $contact.append($('<a>').attr('href', member.extra.contact_form).attr('target', '_blank').text('Email'));
+      $contact.append($('<a>').attr('href', repData[member].contact).attr('target', '_blank').text('Email'));
       $contact.appendTo($contactStats);
     }
 
-    if (member.website) {
+    if (repData[member].website) {
       const $website = $('<div>').addClass('stat');
       $website.append($('<i>').addClass('mdi mdi-earth'));
-      $website.append($('<a>').attr('href', member.website).attr('target', '_blank').text(member.website));
+      $website.append($('<a>').attr('href', repData[member].website).attr('target', '_blank').text(repData[member].website));
       $website.appendTo($socialStats);
     }
 
-    if (rep.twitterid) {
+    if (repData[member].twitter) {
       const $twitter = $('<div>').addClass('stat');
       $twitter.append($('<i>').addClass('mdi mdi-twitter'));
-      $twitter.append($('<a>').attr('href', 'https://twitter.com/' + rep.twitterid).attr('target', '_blank').text(rep.twitterid));
+      $twitter.append($('<a>').attr('href', 'https://twitter.com/' + repData[member].twitter).attr('target', '_blank').text(repData[member].twitter));
       $twitter.appendTo($socialStats);
     }
 
-    if (rep.youtubeid) {
+    if (repData[member].youtube) {
       const $youtube = $('<div>').addClass('stat');
       $youtube.append($('<i>').addClass('mdi mdi-youtube-play'));
-      $youtube.append($('<a>').attr('href', 'https://youtube.com/user/' + rep.youtubeid).attr('target', '_blank').text(rep.youtubeid));
+      $youtube.append($('<a>').attr('href', 'https://youtube.com/user/' + repData[member].youtube).attr('target', '_blank').text(repData[member].youtube));
       $youtube.appendTo($socialStats);
     }
 
-    $statBox.append($contactStats);
-    $statBox.append($socialStats);
+    $profileData.append($contactStats);
+    $profileData.append($socialStats);
+    $bioPage.append($profileData);
+    $bioPage.appendTo($('main'));
+    window.location.href = '#' + member;
+  }
+
+  const renderMem = function(legislature, percTotal, i) {
+    if (i === legislature.length) {
+      $loader.remove();
+      $loadIn.width('0');
+      $('#repContainer').removeClass('loading');
+      return;
+    }
+    const member = legislature[i];
+    repData[member.person.bioguideid] = {};
+    const thisRep = repData[member.person.bioguideid];
+    thisRep.id = member.person.bioguideid;
+    thisRep.name = member.person.firstname + ' ' + member.person.lastname;
+    thisRep.party = member.party.toLowerCase();
+    thisRep.description = member.description;
+    thisRep.address = member.extra.address;
+    thisRep.phone = member.phone;
+    thisRep.contact = member.extra.contact_form;
+    thisRep.website = member.website;
+    thisRep.twitter = member.person.twitterid;
+    thisRep.youtube = member.person.youtubeid;
+
+    const percEach = 1 / legislature.length;
+    const $card = $('<div>').addClass('card hoverable').addClass(thisRep.party);
+    const $shortInfo = $('<div>').addClass('shortInfo');
+    const $repInfo = $('<div>').addClass('repInfo');
+    const $nameTag = $('<h4>').text(thisRep.name);
+    const $actionBox = $('<div>').addClass('row');
+    const $callButton = $('<a>').addClass('col s6 btn action grey').attr('href', 'tel:' + thisRep.phone);
+    $callButton.append($('<i>').addClass('mdi mdi-phone'));
+    $callButton.append($('<span>').text(thisRep.phone));
+    const $bioButton = $('<a>').addClass('col s6 btn action grey bioBut');
+    $bioButton.attr('name', thisRep.id);
+    $bioButton.append($('<i>').addClass('mdi mdi-account'));
+    $bioButton.append($('<span>').text('Profile'));
+    $actionBox.append($bioButton);
+    $actionBox.append($callButton);
+
+    $('<img>').attr('src', 'https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/' + thisRep.id + '.jpg').addClass('headshot').appendTo($shortInfo);
+    $('<span>').addClass('party').addClass(thisRep.party).text(' ' + thisRep.party).appendTo($nameTag);
+    $repInfo.append($nameTag);
+    $('<h5>').text(`${thisRep.description}`).appendTo($repInfo);
+
     $shortInfo.append($repInfo);
     $card.append($shortInfo);
-    $card.append($statBox);
+    $card.append($actionBox);
     $repContainer.append($card);
 
     percTotal += percEach * 100;
@@ -163,14 +206,14 @@
     ajax(`&role_type=representative&state=${state}&district=${district}`);
   });
 
-  $repContainer.on('click', '.card', (event) => {
-    let card;
-    if ($(event.target).hasClass('shortInfo')) {
-      card = event.target;
+  $repContainer.on('click', '.bioBut', (event) => {
+    let id;
+    if (!event.target.name) {
+      id = event.target.parentNode.name;
     } else {
-      card = $(event.target).parents('.shortInfo').last().get(0);
+      id = event.target.name;
     }
-    $(card).parent().toggleClass('open');
+    renderBio(id);
   });
 
   $('#enterZip form').on('submit', (event) => {
@@ -197,14 +240,13 @@
         const state = result.address_components.state;
         const dist = result.fields.congressional_district.district_number;
         $button.attr('name', state + dist);
-        $option.append($button);
         $option.append($('<span>').text(result.formatted_address));
+        $option.append($button);
         $optionBox.append($option);
         $('.welcome').remove();
         $('nav').removeClass('hidden');
       }
     });
   });
-  console.log($(".button-collapse"));
   $(".button-collapse").sideNav();
 })();

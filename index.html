@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/index.css">
   </head>
   <body>
-    <nav class="grey darken-2 white-text z-depth-0 hidden">
+    <nav class="transparent white-text z-depth-0 hidden">
       <div class="nav-wrapper">
         <a href="#enterZip" class="brand-logo center">conGreet</a>
         <a href="#" data-activates="side" class="button-collapse right"><i class="mdi mdi-menu"></i></a>
@@ -38,13 +38,13 @@
       </script>
       <div id="enterZip" class="page">
         <div class="welcome">
-          <div class="brand-logo grey lighten-4">conGreet</div>
+          <div class="brand-logo">conGreet</div>
           <p class="flow-text">Welcome to conGreet! Enter your full address to see a list of your elected officials in the federal government and their contact information.</p>
         </div>
         <form class="card" action="index.html" method="post">
           <div class="input-field">
-            <input type="text" class="flow-text">
-            <label>Enter your address</label>
+            <input id="zipBox" type="text" class="flow-text">
+            <label for="zipBox">Enter your address</label>
           </div>
           <button class="btn red wide">GO</button>
         </form>

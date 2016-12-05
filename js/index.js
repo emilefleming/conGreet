@@ -8,6 +8,11 @@
   const myInfo = {};
   const repData = {};
 
+  const openPage = function(page) {
+    $('.page').addClass('hidden');
+    page.removeClass('hidden');
+  }
+
   const empty = function() {
     $repContainer.empty();
     $repContainer.append($loader);
@@ -37,7 +42,7 @@
     const $namePic = $('<div>').addClass('namePic');
     const $profileData = $('<div>').addClass('profileData');
     const $title = $('<div>').addClass('title');
-    const $contactStats = $('<div>');
+    const $contactStats = $('<div>').addClass('contactStats');
     const $socialStats = $('<div>');
     $bioPage.addClass(repData[member].party);
     $('<img>').attr('src', 'https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/' + member + '.jpg').addClass('profilePic').appendTo($namePic);
@@ -113,7 +118,7 @@
     $profileData.append($socialStats);
     $bioPage.append($profileData);
     $bioPage.appendTo($('main'));
-    window.location.href = '#' + member;
+    openPage($bioPage);
   }
 
   const renderMem = function(legislature, percTotal, i) {
@@ -143,10 +148,10 @@
     const $repInfo = $('<div>').addClass('repInfo');
     const $nameTag = $('<h4>').text(thisRep.name);
     const $actionBox = $('<div>').addClass('row');
-    const $callButton = $('<a>').addClass('col s6 btn action grey').attr('href', 'tel:' + thisRep.phone);
+    const $callButton = $('<a>').addClass('col s6 btn action').attr('href', 'tel:' + thisRep.phone);
     $callButton.append($('<i>').addClass('mdi mdi-phone'));
     $callButton.append($('<span>').text(thisRep.phone));
-    const $bioButton = $('<a>').addClass('col s6 btn action grey bioBut');
+    const $bioButton = $('<a>').addClass('col s6 btn action bioBut');
     $bioButton.attr('name', thisRep.id);
     $bioButton.append($('<i>').addClass('mdi mdi-account'));
     $bioButton.append($('<span>').text('Profile'));
@@ -198,7 +203,7 @@
     myInfo.district = district;
     empty();
     $('#optionBox').empty();
-    window.location.href = '#repContainer';
+    openPage($repContainer);
     const $backBt = $('<a>').addClass('btn red back').attr('href', '#enterZip');
     $backBt.text('BACK');
     $repContainer.append($backBt);

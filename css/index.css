@@ -46,7 +46,7 @@ main {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .hidden + main {
@@ -152,7 +152,7 @@ main {
 .stat {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  padding: 7px 20px;
 }
 
 .stat i {
@@ -209,6 +209,7 @@ main {
 .action {
   display: flex;
   align-items: center;
+  background-color: #222;
   justify-content: center;
   border-radius: 0;
   text-transform: none;
@@ -230,14 +231,14 @@ main {
 }
 
 .namePic {
-  padding: 20px 20px 10px 20px;
+  padding: 20px;
 }
 
 .namePic h3 {
   color: white;
   text-align: center;
-  font-size: 1.75em;
-  margin-top: 10px;
+  font-size: 28px;
+  margin-top: 20px;
 }
 
 .profileData {
@@ -245,11 +246,16 @@ main {
 }
 
 .title {
-  padding: 10px 20px 20px 20px;
+  padding: 15px 20px 20px 20px;
+}
+
+.title h3 {
+  font-size: 20px;
 }
 
 .title h4 {
   font-style: italic;
+  font-size: 16px;
   text-align: center;
   color: #444;
   margin-top: 10px;
@@ -261,6 +267,10 @@ main {
 
 .republican .title {
   border-bottom: 1px solid #ED1C24;
+}
+
+.contactStats {
+  padding-top: 15px;
 }
 
 #repContainer, #enterZip {

@@ -10,7 +10,6 @@
   const recentPages = [];
 
   const openPage = function(page) {
-    console.log(page);
     $('.page').addClass('hidden');
     page.removeClass('hidden');
     recentPages.push(page);
@@ -126,11 +125,51 @@
       $youtube.appendTo($socialStats);
     }
 
+    const recentVideos = function (username) {
+      const $xhr = $.ajax({
+        method: 'GET',
+        url: `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=${username}&key=AIzaSyDC5Xq8x4BqCFQRBw6uKF6PFw_5FSfwFFk`
+      });
+
+      $xhr.done((data) => {
+        if ($xhr.status !== 200) {
+          return;
+        }
+        getRecentVideos(data.items[0].contentDetails.relatedPlaylists.uploads);
+      });
+    }
+
+    const getRecentVideos = function (id) {
+      const $xhr = $.ajax ({
+        method: 'GET',
+        url: `https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails,snippet&playlistId=${id}&key=AIzaSyDC5Xq8x4BqCFQRBw6uKF6PFw_5FSfwFFk`
+      });
+
+      $xhr.done((data) => {
+        const $vidBox = $('<div>').addClass('vidBox');
+        $vidBox.append($('<h5>').text('Recent Videos'));
+        for (const video of data.items) {
+          const $frame = $('<iframe>').attr('width', '100%').attr('height', '56vw');
+          const $vidWrap = $('<div>').addClass('videoWrapper');
+          const $vidTitle = $('<h6>').text(video.snippet.title);
+          $frame.attr('src', 'https://www.youtube-nocookie.com/embed/' + video.contentDetails.videoId + '?showinfo=0');
+          $frame.attr('allowfullscreen', '').attr('frameborder', '0');
+          $frame.appendTo($vidWrap);
+          $vidWrap.appendTo($vidBox);
+          $vidTitle.appendTo($vidBox);
+        }
+        $profileData.append($vidBox);
+      });
+    }
+
     $profileData.append($contactStats);
     $profileData.append($socialStats);
     $bioPage.append($profileData);
     $bioPage.appendTo($('main'));
     openPage($bioPage);
+    if (repData[member].youtube) {
+      recentVideos(repData[member].youtube)
+    }
   }
 
   const renderMem = function(legislature, percTotal, i) {
@@ -188,6 +227,7 @@
       renderMem(legislature, percTotal, i++)
     }, 1);
   }
+
 
   $('nav ul').on('click', 'a', (event) => {
     switch (event.target.id) {

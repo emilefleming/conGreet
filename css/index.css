@@ -36,6 +36,11 @@ h5 {
   margin: 5px 0;
 }
 
+h6 {
+  font-size: 12px;
+  margin: 10px 0 20px 0;
+}
+
 main {
   position: absolute;
   top: 56px;
@@ -273,6 +278,16 @@ main {
   padding-top: 15px;
 }
 
+.vidBox {
+  padding: 20px;
+}
+
+.vidBox h5 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin: 0 0 20px 0;
+}
 #back {
   margin: 0 18px;
 }
@@ -326,3 +341,20 @@ main {
    border-bottom: 1px solid #007DC5;
    box-shadow: 0 1px 0 0 #007DC5;
  }
+
+
+ /* Classes for responsive youtube embeds */
+
+ .videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}

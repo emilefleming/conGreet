@@ -273,6 +273,10 @@ main {
   padding-top: 15px;
 }
 
+#back {
+  margin: 0 18px;
+}
+
 #repContainer, #enterZip {
   padding: 20px 20px 0 20px;
 }

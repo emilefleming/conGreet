@@ -7,10 +7,22 @@
   const $loader = $('<div>').addClass('loader').append($loadBar);
   const myInfo = {};
   const repData = {};
+  const recentPages = [];
 
   const openPage = function(page) {
+    console.log(page);
     $('.page').addClass('hidden');
     page.removeClass('hidden');
+    recentPages.push(page);
+  }
+
+  const goBack = function() {
+    if (recentPages.length < 2) {
+      openPage($('#enterZip'));
+      return;
+    }
+    recentPages.pop();
+    openPage(recentPages.pop());
   }
 
   const empty = function() {
@@ -196,6 +208,8 @@
     }
   });
 
+  $('#back').on('click', goBack);
+
   $('#optionBox').on('click', 'button', (event) =>{
     const state = event.target.name.slice(0, 2);
     const district = event.target.name.slice(2, event.target.name.length);
@@ -204,9 +218,6 @@
     empty();
     $('#optionBox').empty();
     openPage($repContainer);
-    const $backBt = $('<a>').addClass('btn red back').attr('href', '#enterZip');
-    $backBt.text('BACK');
-    $repContainer.append($backBt);
     ajax(`&role_type=senator&state=${state}`);
     ajax(`&role_type=representative&state=${state}&district=${district}`);
   });

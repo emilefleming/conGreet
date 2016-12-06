@@ -139,7 +139,6 @@
       });
 
       $xhr.done((data) => {
-        console.log(data);
         $recentVotes.append($('<h5>').text('Recent Votes'));
         for (const bill of data.objects) {
           const $voteBox = $('<div>').addClass('vote');
@@ -262,17 +261,19 @@
 
   $('nav ul').on('click', 'a', (event) => {
     switch (event.target.id) {
-      case 'allLeg':
+      case 'zipLink':
+        openPage($('#enterZip'));
+        break;
+      case 'myReps':
         empty();
+        openPage($repContainer);
+        ajax(`&role_type=senator&state=${myInfo.state}`);
+        ajax(`&role_type=representative&state=${myInfo.state}&district=${myInfo.district}`);
+        break;
+      case 'allReps':
+        empty();
+        openPage($repContainer);
         ajax();
-        break;
-      case 'senators':
-        empty();
-        ajax('&role_type=senator');
-        break;
-      case 'reps':
-        empty();
-        ajax('&role_type=representative');
         break;
       default:
         break;
@@ -287,7 +288,6 @@
     myInfo.state = state;
     myInfo.district = district;
     empty();
-    $('#optionBox').empty();
     openPage($repContainer);
     ajax(`&role_type=senator&state=${state}`);
     ajax(`&role_type=representative&state=${state}&district=${district}`);
@@ -330,8 +330,8 @@
         $option.append($('<span>').text(result.formatted_address));
         $option.append($button);
         $optionBox.append($option);
-        $('.welcome').remove();
         $('nav').removeClass('hidden');
+        openPage($optionBox);
       }
     });
   });

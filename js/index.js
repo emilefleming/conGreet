@@ -2,7 +2,7 @@
   'use strict';
 
   const $repContainer = $('#repContainer');
-  const $loadIn = $('<div>').addClass('determinate grey');
+  const $loadIn = $('<div>').addClass('determinate red');
   const $loadBar = $('<div>').addClass('progress white').append($loadIn);
   const $loader = $('<div>').addClass('loader').append($loadBar);
   const myInfo = {};
@@ -260,6 +260,7 @@
 
 
   $('nav ul').on('click', 'a', (event) => {
+    $('.button-collapse').sideNav('hide');  
     switch (event.target.id) {
       case 'zipLink':
         openPage($('#enterZip'));

@@ -175,6 +175,10 @@ main {
   align-items: center;
 }
 
+.red {
+  background-color: #ED1C24;  
+}
+
 .page {
   overflow-y: scroll;
   height: 100%;

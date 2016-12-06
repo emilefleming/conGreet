@@ -38,7 +38,7 @@ h5 {
 
 h6 {
   font-size: 12px;
-  margin: 10px 0 20px 0;
+  margin: 10px 0 0 0;
 }
 
 main {
@@ -279,8 +279,12 @@ main {
   padding-top: 15px;
 }
 
-.vidBox, .recentVotes {
+.recentVotes {
   padding: 20px 20px 0 20px;
+}
+
+.vidBox {
+  padding: 20px;
 }
 
 .vidBox h5, .recentVotes h5 {
@@ -377,6 +381,7 @@ main {
 	position: relative;
 	padding-bottom: 56.25%; /* 16:9 */
 	padding-top: 25px;
+  margin-top: 20px;
 	height: 0;
 }
 .videoWrapper iframe {

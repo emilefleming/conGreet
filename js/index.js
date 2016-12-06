@@ -125,6 +125,40 @@
       $youtube.appendTo($socialStats);
     }
 
+    $profileData.append($contactStats);
+    $profileData.append($socialStats);
+    const $recentVotes = $('<div>').addClass('recentVotes');
+    $profileData.append($recentVotes);
+    const $vidBox = $('<div>').addClass('vidBox');
+    $profileData.append($vidBox);
+
+    const getRecentVotes = function(id) {
+      const $xhr = $.ajax({
+        method: 'GET',
+        url: `https://www.govtrack.us/api/v2/vote_voter?person=${id}&sort=-created&limit=5`
+      });
+
+      $xhr.done((data) => {
+        console.log(data);
+        $recentVotes.append($('<h5>').text('Recent Votes'));
+        for (const bill of data.objects) {
+          const $voteBox = $('<div>').addClass('vote');
+          const $voteInfo = $('<div>').text(bill.vote.question);
+          if (bill.option.value === 'Yea' || bill.option.value === 'Aye') {
+            $voteBox.append($('<div>').addClass('yesVote'));
+          } else if (bill.option.value === 'Nay' || bill.option.value === 'No') {
+            $voteBox.append($('<div>').addClass('noVote'));
+          } else {
+            $voteBox.append($('<div>').addClass('nullVote'));
+          }
+          $voteInfo.append($('<div>').text(bill.vote.result));
+          $voteBox.append($voteInfo);
+          $recentVotes.append($voteBox);
+        };
+      });
+    }
+    getRecentVotes(repData[member].govTrackId);
+
     const recentVideos = function (username) {
       const $xhr = $.ajax({
         method: 'GET',
@@ -146,7 +180,6 @@
       });
 
       $xhr.done((data) => {
-        const $vidBox = $('<div>').addClass('vidBox');
         $vidBox.append($('<h5>').text('Recent Videos'));
         for (const video of data.items) {
           const $frame = $('<iframe>').attr('width', '100%').attr('height', '56vw');
@@ -158,12 +191,9 @@
           $vidWrap.appendTo($vidBox);
           $vidTitle.appendTo($vidBox);
         }
-        $profileData.append($vidBox);
       });
     }
 
-    $profileData.append($contactStats);
-    $profileData.append($socialStats);
     $bioPage.append($profileData);
     $bioPage.appendTo($('main'));
     openPage($bioPage);
@@ -183,6 +213,7 @@
     repData[member.person.bioguideid] = {};
     const thisRep = repData[member.person.bioguideid];
     thisRep.id = member.person.bioguideid;
+    thisRep.govTrackId = member.person.id;
     thisRep.name = member.person.firstname + ' ' + member.person.lastname;
     thisRep.party = member.party.toLowerCase();
     thisRep.description = member.description;

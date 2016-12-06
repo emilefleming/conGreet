@@ -255,6 +255,7 @@ main {
 }
 
 .title h3 {
+  color: white;
   font-size: 20px;
 }
 
@@ -262,16 +263,16 @@ main {
   font-style: italic;
   font-size: 16px;
   text-align: center;
-  color: #444;
+  color: white;
   margin-top: 10px;
 }
 
 .democrat .title {
-  border-bottom: 1px solid #007DC5;
+  background-color: #007DC5;
 }
 
 .republican .title {
-  border-bottom: 1px solid #ED1C24;
+  background-color: #ED1C24;
 }
 
 .contactStats {

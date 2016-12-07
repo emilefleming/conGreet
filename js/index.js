@@ -279,6 +279,9 @@
       case 'allReps':
         openPage($('#searchBox'));
         break;
+      case 'bills' :
+      
+        break;
       default:
         break;
     }

@@ -324,6 +324,10 @@ main {
   background-color: yellow;
 }
 
+.stateChecks div {
+  margin-right: 10px;
+}
+
 .stateChecks [type="checkbox"]:checked+label:before {
   border-right-color: #6FBE45;
   border-bottom-color: #6FBE45;

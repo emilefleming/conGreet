@@ -1,6 +1,8 @@
 (function() {
   'use strict';
+  $('select').material_select();
 
+  const $repFilters = $('#repFilters');
   const $repContainer = $('#repContainer');
   const $loadIn = $('<div>').addClass('determinate red');
   const $loadBar = $('<div>').addClass('progress white').append($loadIn);
@@ -258,23 +260,24 @@
     }, 1);
   }
 
-
   $('nav ul').on('click', 'a', (event) => {
-    $('.button-collapse').sideNav('hide');  
+    $('.button-collapse').sideNav('hide');
     switch (event.target.id) {
       case 'zipLink':
         openPage($('#enterZip'));
         break;
       case 'myReps':
+        if (!myInfo.state || !myInfo.dist) {
+          Materialize.toast('Please enter your address', 4000);
+          break;
+        }
         empty();
         openPage($repContainer);
         ajax(`&role_type=senator&state=${myInfo.state}`);
         ajax(`&role_type=representative&state=${myInfo.state}&district=${myInfo.district}`);
         break;
       case 'allReps':
-        empty();
-        openPage($repContainer);
-        ajax();
+        openPage($('#searchBox'));
         break;
       default:
         break;
@@ -282,6 +285,41 @@
   });
 
   $('#back').on('click', goBack);
+
+  $repFilters.on('submit', (event) => {
+    event.preventDefault();
+    let partyFilter = '';
+    let chamberFilter = '';
+    let stateFilter = '';
+    const parties = $('select[name=filterParty]').val();
+    const chambers = $('select[name=filterChamber]').val();
+    if (!parties.length) {
+      Materialize.toast('At least one party must be selected', 4000);
+    }
+    if (!chambers.length) {
+      Materialize.toast('At least one party must be selected', 4000);
+    }
+    if (parties.length < 3) {
+      partyFilter = '&party=' + parties.join('&party=');
+    }
+    if (chambers.length < 2) {
+      chamberFilter = '&role_type=' + chambers[0];
+    }
+    if ($('#stateSwitch:checked').length) {
+      const states = $('#stateCheckWrapper input:checked');
+      for (const state of states) {
+        stateFilter += '&state=' + state.id;
+      }
+    }
+    const filters = partyFilter + chamberFilter + stateFilter;
+    openPage($repContainer);
+    empty();
+    ajax(filters);
+  });
+
+  $('#stateSwitch').on('change', () => {
+    $('#stateCheckWrapper').toggleClass('hidden');
+  });
 
   $('#optionBox').on('click', 'button', (event) =>{
     const state = event.target.name.slice(0, 2);

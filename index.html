@@ -52,6 +52,241 @@
       </div>
       <div id="optionBox" class="page"></div>
       <div id="repContainer" class="page"></div>
+      <div id="searchBox" class="page">
+        <form id="repFilters">
+          <div class="input-field col s12">
+            <select multiple name="filterParty">
+              <option selected value="democrat">Democrat</option>
+              <option selected value="republican">Republican</option>
+              <option selected value="independent">Independent</option>
+            </select>
+            <label>Party</label>
+          </div>
+          <div class="input-field col s12">
+            <select multiple name="filterChamber">
+              <option selected value="representative">House</option>
+              <option selected value="senator">Senate</option>
+            </select>
+            <label>Chamber</label>
+          </div>
+          <span class="white-text">Filter by State</span>
+          <span class="switch right">
+            <label>
+              Off
+              <input id="stateSwitch" type="checkbox">
+              <span class="lever"></span>
+              On
+            </label>
+          </span>
+          <div id="stateCheckWrapper" class="hidden">
+            <div class="stateChecks">
+              <div>
+                <input type="checkbox" id="AL" />
+                <label for="AL">Alabama</label>
+              </div>
+              <div>
+                <input type="checkbox" id="AK" />
+                <label for="AK">Alaska</label>
+              </div>
+              <div>
+                <input type="checkbox" id="AZ" />
+                <label for="AZ">Arizona</label>
+              </div>
+              <div>
+                <input type="checkbox" id="AR" />
+                <label for="AR">Arkansas</label>
+              </div>
+              <div>
+                <input type="checkbox" id="CA" />
+                <label for="CA">California</label>
+              </div>
+              <div>
+                <input type="checkbox" id="CO" />
+                <label for="CO">Colorado</label>
+              </div>
+              <div>
+                <input type="checkbox" id="CT" />
+                <label for="CT">Connecticut</label>
+              </div>
+              <div>
+                <input type="checkbox" id="DE" />
+                <label for="DE">Delaware</label>
+              </div>
+              <div>
+                <input type="checkbox" id="FL" />
+                <label for="FL">Florida</label>
+              </div>
+              <div>
+                <input type="checkbox" id="GA" />
+                <label for="GA">Georgia</label>
+              </div>
+              <div>
+                <input type="checkbox" id="HI" />
+                <label for="HI">Hawaii</label>
+              </div>
+              <div>
+                <input type="checkbox" id="ID" />
+                <label for="ID">Idaho</label>
+              </div>
+              <div>
+                <input type="checkbox" id="IL" />
+                <label for="IL">Illinois</label>
+              </div>
+              <div>
+                <input type="checkbox" id="IN" />
+                <label for="IN">Indiana</label>
+              </div>
+              <div>
+                <input type="checkbox" id="IA" />
+                <label for="IA">Iowa</label>
+              </div>
+              <div>
+                <input type="checkbox" id="KS" />
+                <label for="KS">Kansas</label>
+              </div>
+              <div>
+                <input type="checkbox" id="KY" />
+                <label for="KY">Kentucky</label>
+              </div>
+              <div>
+                <input type="checkbox" id="LA" />
+                <label for="LA">Louisiana</label>
+              </div>
+              <div>
+                <input type="checkbox" id="ME" />
+                <label for="ME">Maine</label>
+              </div>
+              <div>
+                <input type="checkbox" id="MD" />
+                <label for="MD">Maryland</label>
+              </div>
+              <div>
+                <input type="checkbox" id="MA" />
+                <label for="MA">Massachusetts</label>
+              </div>
+              <div>
+                <input type="checkbox" id="MI" />
+                <label for="MI">Michigan</label>
+              </div>
+              <div>
+                <input type="checkbox" id="MN" />
+                <label for="MN">Minnesota</label>
+              </div>
+              <div>
+                <input type="checkbox" id="MS" />
+                <label for="MS">Mississippi</label>
+              </div>
+              <div>
+                <input type="checkbox" id="MO" />
+                <label for="MO">Missouri</label>
+              </div>
+            </div>
+            <div class="stateChecks">
+              <div>
+                <input type="checkbox" id="MT" />
+                <label for="MT">Montana</label>
+              </div>
+              <div>
+                <input type="checkbox" id="NE" />
+                <label for="NE">Nebraska</label>
+              </div>
+              <div>
+                <input type="checkbox" id="NV" />
+                <label for="NV">Nevada</label>
+              </div>
+              <div>
+                <input type="checkbox" id="NH" />
+                <label for="NH">New Hampshire</label>
+              </div>
+              <div>
+                <input type="checkbox" id="NJ" />
+                <label for="NJ">New Jersey</label>
+              </div>
+              <div>
+                <input type="checkbox" id="NM" />
+                <label for="NM">New Mexico</label>
+              </div>
+              <div>
+                <input type="checkbox" id="NY" />
+                <label for="NY">New York</label>
+              </div>
+              <div>
+                <input type="checkbox" id="NC" />
+                <label for="NC">North Carolina</label>
+              </div>
+              <div>
+                <input type="checkbox" id="ND" />
+                <label for="ND">North Dakota</label>
+              </div>
+              <div>
+                <input type="checkbox" id="OH" />
+                <label for="OH">Ohio</label>
+              </div>
+              <div>
+                <input type="checkbox" id="OK" />
+                <label for="OK">Oklahoma</label>
+              </div>
+              <div>
+                <input type="checkbox" id="OR" />
+                <label for="OR">Oregon</label>
+              </div>
+              <div>
+                <input type="checkbox" id="PA" />
+                <label for="PA">Pennsylvania</label>
+              </div>
+              <div>
+                <input type="checkbox" id="RI" />
+                <label for="RI">Rhode Island</label>
+              </div>
+              <div>
+                <input type="checkbox" id="SC" />
+                <label for="SC">South Carolina</label>
+              </div>
+              <div>
+                <input type="checkbox" id="SD" />
+                <label for="SD">South Dakota</label>
+              </div>
+              <div>
+                <input type="checkbox" id="TN" />
+                <label for="TN">Tennessee</label>
+              </div>
+              <div>
+                <input type="checkbox" id="TX" />
+                <label for="TX">Texas</label>
+              </div>
+              <div>
+                <input type="checkbox" id="UT" />
+                <label for="UT">Utah</label>
+              </div>
+              <div>
+                <input type="checkbox" id="VT" />
+                <label for="VT">Vermont</label>
+              </div>
+              <div>
+                <input type="checkbox" id="VA" />
+                <label for="VA">Virgina</label>
+              </div>
+              <div>
+                <input type="checkbox" id="WA" />
+                <label for="WA">Washington</label>
+              </div>
+              <div>
+                <input type="checkbox" id="WV" />
+                <label for="WV">West Virgina</label>
+              </div>
+              <div>
+                <input type="checkbox" id="WI" />
+                <label for="WI">Wisconsin</label>
+              </div>
+              <div>
+                <input type="checkbox" id="WY" />
+                <label for="WY">Wyoming</label>
+              </div>
+            </div>
+          </div>
+          <button class="btn red center">GO</button>
+        </form>
+      </div>
     </main>
   </body>
 </html>

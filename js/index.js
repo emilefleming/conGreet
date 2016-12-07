@@ -267,7 +267,7 @@
         openPage($('#enterZip'));
         break;
       case 'myReps':
-        if (!myInfo.state || !myInfo.dist) {
+        if (!myInfo.state || !myInfo.district) {
           Materialize.toast('Please enter your address', 4000);
           break;
         }

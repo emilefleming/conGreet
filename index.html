@@ -41,17 +41,17 @@
       <div id="enterZip" class="page">
         <div class="welcome">
           <div class="brand-logo">conGreet</div>
-          <p class="flow-text">Welcome to conGreet! Enter your full address to see a list of your elected officials in the federal government and their contact information.</p>
+          <p class="flow-text">Welcome! conGreet connects you with your representatives in the U.S. Congress</p>
         </div>
         <form class="card" action="index.html" method="post">
           <div class="input-field">
-            <input id="zipBox" type="text" class="flow-text">
-            <label for="zipBox">Enter your address</label>
+            <input id="zipBox" type="text" class="flow-text" autofocus autocomplete="off">
+            <label for="zipBox">ENTER YOUR ADDRESS</label>
           </div>
           <button class="btn red wide">GO</button>
         </form>
+        <div id="optionBox"></div>
       </div>
-      <div id="optionBox" class="page"></div>
       <div id="repContainer" class="page"></div>
       <div id="searchBox" class="page">
         <form id="repFilters">

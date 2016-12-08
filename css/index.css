@@ -100,7 +100,7 @@ main {
 }
 
 .card {
-  margin-top: 0;
+  margin: 0;
 }
 
 .shortInfo {
@@ -218,17 +218,32 @@ main {
   background-color: #007DC5;
 }
 
-.addrOption {
+/*.addrOption {
+  background-color: #EEE;
   height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-left: 20px;
+}*/
+
+.addrOption {
+  display: flex;
+  align-items: flex-end;
+  margin: 20px;
+  height: 200px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
 }
 
-.addrOption button {
-  height: 100%;
-  margin-left: 20px;
+.addrOption div {
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  background-color: #111;
+  color: white;
 }
 
 .wide {
@@ -486,7 +501,7 @@ main {
   margin: 0 18px;
 }
 
-#repContainer, #enterZip {
+#repContainer {
   padding: 0 20px 0 20px;
 }
 
@@ -498,7 +513,6 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-top: 20px;
 }
 
 #enterZip input {
@@ -508,13 +522,20 @@ main {
 
 #enterZip form {
   width: 100%;
+  background-color: #EEE;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 #enterZip .input-field {
-  margin: 30px 20px 20px 20px;
+  margin: 30px 20px 0 20px;
 }
 
 #optionBox {
+  width: 100%;
+}
+
+#optionBox img {
   width: 100%;
 }
 
@@ -523,7 +544,9 @@ main {
 }
 
 .welcome p {
-  color: white;
+  background-color: #EEE;
+  padding: 20px;
+  margin: 0;
 }
 
 /* label color */
@@ -532,12 +555,12 @@ main {
  }
  /* label focus color */
  .input-field input[type=text]:focus + label {
-   color: #007DC5;
+   color: #AAA;
  }
  /* label underline focus color */
  .input-field input[type=text]:focus {
-   border-bottom: 1px solid #007DC5;
-   box-shadow: 0 1px 0 0 #007DC5;
+   border-bottom: 1px solid #AAA;
+   box-shadow: 0 1px 0 0 #AAA;
  }
 
 

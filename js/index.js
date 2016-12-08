@@ -153,18 +153,16 @@
 
   const renderAddresses = function(response) {
     const $optionBox = $('#optionBox');
-    $optionBox.empty();
     for (const result of response.results) {
+      console.log(result);
       const $option = $('<div>').addClass('addrOption card');
-      const $button = $('<button>').addClass('btn blue').text('GO');
       const state = result.address_components.state;
       const dist = result.fields.congressional_district.district_number;
-      $button.attr('name', state + dist);
-      $option.append($('<span>').text(result.formatted_address));
-      $option.append($button);
+
+      $option.attr('style', `background-image: url( https://maps.googleapis.com/maps/api/staticmap?center=${result.location.lat},${result.location.lng}&markers=size:mid|color:0xF44336|${result.location.lat},${result.location.lng}&zoom=14&size=400x200&scale=2&key=AIzaSyDtZ3kf0cXNDiUDBeYW1G3rhM6zcFJ5hh4)`);
+      $option.attr('name', state + dist);
+      $option.append($('<div>').text(result.formatted_address));
       $optionBox.append($option);
-      $('nav').removeClass('hidden');
-      openPage($optionBox);
     }
   }
 
@@ -572,6 +570,7 @@
   $('#back').on('click', goBack);
 
   $('nav ul').on('click', 'a', (event) => {
+    $('#sidenav-overlay').trigger( "click" );
     switch (event.target.id) {
       case 'zipLink':
         openPage($('#enterZip'));
@@ -627,10 +626,17 @@
     $('#stateCheckWrapper').toggleClass('hidden');
   });
 
-  $('#optionBox').on('click', 'button', (event) =>{
+  $('#optionBox').on('click', (event) =>{
+    let id;
+    if (!$(event.target).attr('name')) {
+      id = $(event.target).parents('.addrOption').attr('name');
+    } else {
+      id = $(event.target).attr('name');
+    }
+
     const path = 'https://www.govtrack.us/api/v2/role?current=true&limit=999&sort=person';
-    const state = event.target.name.slice(0, 2);
-    const district = event.target.name.slice(2, event.target.name.length);
+    const state = id.slice(0, 2);
+    const district = id.slice(2, id.length);
     myInfo.state = state;
     myInfo.district = district;
     empty();
@@ -660,6 +666,9 @@
       return;
     }
     ajax(renderAddresses, path, query);
+    $('.welcome').remove();
+    $('#optionBox').empty();
+    $('nav').removeClass('hidden');
   });
   $(".button-collapse").sideNav();
 })();

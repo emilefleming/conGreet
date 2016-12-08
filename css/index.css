@@ -50,16 +50,8 @@ main {
   overflow: hidden;
 }
 
-ul.tabs {
-  margin-bottom: 10px;
-}
-
 .row {
   margin: 0;
-}
-
-.row.pad20 {
-  padding: 20px;
 }
 
 .row .col {
@@ -76,9 +68,10 @@ ul.tabs {
 
 .tabs .indicator {
   background-color: #6FBE45;
+  height: 5px;
 }
 
-.contactBox {
+.contactBox, .recentVotes {
   padding: 20px 0 0 0;
 }
 
@@ -311,12 +304,12 @@ ul.tabs {
   background-color: #ED1C24;
 }
 
-.contactStats {
-  padding-top: 15px;
+.independent .title {
+  background-color: #FFC900;
 }
 
-.recentVotes {
-  padding: 20px 20px 0 20px;
+.contactStats {
+  padding-top: 15px;
 }
 
 .vidBox {
@@ -340,8 +333,10 @@ ul.tabs {
 .yesVote, .noVote, .nullVote {
   min-width: 20px;
   min-height: 20px;
-  margin: 0 20px 0 0;
+  /*margin: 0 20px 0 0;*/
   border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .yesVote {
@@ -353,7 +348,7 @@ ul.tabs {
 }
 
 .nullVote {
-  background-color: yellow;
+  background-image: url("../img/nullVote.svg");
 }
 
 .stateChecks div {
@@ -371,10 +366,6 @@ ul.tabs {
 
 .switch label input[type=checkbox]:checked+.lever:after {
   background-color: #6FBE45;
-}
-
-.voteCard {
-  padding: 10px;
 }
 
 .titleBlock {
@@ -400,18 +391,14 @@ ul.tabs {
   letter-spacing: 2px;
 }
 
-.billData {
-  padding: 0 0 20px 0;
-}
-
 .billData > p {
   padding: 20px;
   font-size: 14px;
-  border-bottom: 1px solid #AAA;
+  border-bottom: 1px solid #CCC;
 }
 
 .smallCard {
-  padding: 0 20px 20px 20px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
 }
@@ -427,12 +414,56 @@ ul.tabs {
   color: #333;
 }
 
-.votesForBill .voteCard {
+.voteCard  {
+  border-bottom: 1px solid #CCC;
   margin: 0;
   background-color: transparent;
   border-radius: 0;
   box-shadow: none;
   padding: 20px;
+}
+
+.date {
+  color: #888 !important;
+}
+
+.breakdown {
+  display: flex;
+  justify-content: space-between;
+}
+
+.voteBreakdown span {
+  margin-left: 10px;
+}
+
+.myRepVotes {
+  display: flex;
+  padding-top: 20px;
+}
+
+.smallVote {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.smallVote img {
+  width: 30px;
+  margin-bottom: 10px;
+}
+
+.voteBreakdown span:nth-child(2) {
+  color: #6FBE45;
+}
+
+.voteBreakdown span:nth-child(3) {
+  color: #ED1C24;
+}
+
+.voteBreakdown span:nth-child(4) {
+  color: #FFC900;
 }
 
 #stateCheckWrapper {
@@ -484,6 +515,10 @@ ul.tabs {
 
 #optionBox {
   width: 100%;
+}
+
+#recentVotes {
+  background-color: #EEE;
 }
 
 .welcome p {

@@ -287,7 +287,28 @@
           <button class="btn red center">GO</button>
         </form>
       </div>
-      <div id="billBox" class="page"></div>
+      <div id="billBox" class="page">
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs transparent">
+              <li class="tab col s6"><a class="active" href="#recentVotes">Recent Votes</a></li>
+              <li class="tab col s6"><a href="#searchBills">Search</a></li>
+            </ul>
+          </div>
+          <div id="recentVotes" class="col s12"></div>
+          <div id="searchBills" class="col s12">
+            <form id="billFilters">
+              <div class="input-field col s12">
+                <select multiple name="filterChamber">
+                  <option selected value="representative">House</option>
+                  <option selected value="senator">Senate</option>
+                </select>
+                <label>Chamber</label>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </main>
   </body>
 </html>

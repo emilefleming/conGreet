@@ -108,6 +108,10 @@
     cacheMemberCard(thisRep);
   }
 
+  const preCacheMember = function (data) {
+    cacheMember(data.objects[0]);
+  };
+
 // RENDER FUNCTIONS
 
   const renderAddresses = function(response) {
@@ -337,6 +341,100 @@
     }, 1);
   }
 
+  const renderVotes = function (data, target) {
+    for (const vote of data.objects) {
+      $('#' + target).append(renderVote(vote));
+    };
+  }
+
+  const renderVote = function(vote) {
+    const $card = $('<div>').addClass('card voteCard');
+    const $titleBlock = $('<div>').addClass('titleBlock');
+    const $title = $('<div>').text(vote.related_bill.display_number);
+    const $result = $('<div>');
+    const $description = $('<p>').text(vote.question);
+
+    $card.attr('name', vote.related_bill.id);
+    $result.text(vote.result + ' ' + vote.chamber_label);
+
+    $titleBlock.append($title);
+    $titleBlock.append($result);
+
+    $card.append($titleBlock);
+    $card.append($description);
+    return $card;
+  }
+
+  const renderSmallCard = function(bioguideid, name, id) {
+    const $card = $('<div>').addClass('smallCard col s12 m6 l4');
+    const $img = $('<img>').attr('src', 'https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/' + bioguideid + '.jpg');
+
+    $card.append($img);
+    $card.append($('<h4>').text(name));
+
+    $card.on('click', () => {
+      renderBio(bioguideid);
+    });
+
+    return $card
+  }
+
+  const renderBillVotes = function (data, id) {
+    const $voteBox = $('<div>').addClass('votesForBill');
+    $voteBox.append($('<h5>').text('Votes'));
+    for (const vote of data.objects) {
+      console.log(vote);
+      $voteBox.append(renderVote(vote));
+    }
+    $('#' + id + ' .billData').append($voteBox);
+  }
+
+  const renderBill = function(data, id) {
+    if ($('#' + id).length) {
+      openPage($('#' + id));
+      return;
+    }
+    console.log(data);
+    const $page = $('<div>').attr('id', id).addClass('page');
+    const $title = $('<div>').addClass('billTitle').text(data.display_number);
+    const $info = $('<div>').addClass('billData');
+    const $description = $('<p>').text(data.title_without_number);
+    const $sponsors = $('<div>');
+    const $coSponsors = $('<div>').addClass('row pad20');
+    const path = 'https://www.govtrack.us/api/v2/role?current=true&person=';
+    const votesPath = 'https://www.govtrack.us/api/v2/vote?sort=-created&related_bill='
+    const query = data.sponsor.id;
+
+    $sponsors.append($('<h5>').text('Sponsor'));
+
+    ajax(preCacheMember, path, query);
+
+    $sponsors.append(renderSmallCard(data.sponsor.bioguideid, data.sponsor.name, data.sponsor.id));
+
+    if (data.cosponsors.length) {
+      $sponsors.append($('<h5>').text('Cosponsors'));
+      for (const sponsor of data.cosponsors) {
+        const query2 = sponsor.id;
+
+        ajax(preCacheMember, path, query2);
+
+        $coSponsors.append(renderSmallCard(sponsor.bioguideid, sponsor.name, sponsor.id));
+      }
+    }
+
+    $sponsors.append($coSponsors);
+
+    ajax(renderBillVotes,votesPath,id,id);
+
+    $info.append($description);
+    $info.append($sponsors);
+
+    $page.append($title);
+    $page.append($info);
+    $('main').append($page);
+    openPage($page);
+  }
+
 // PAGE FUNCTIONS
 
   const openMyReps = function(){
@@ -352,7 +450,33 @@
     ajax(renderMem, path, `&role_type=representative&state=${myInfo.state}&district=${myInfo.district}`);
   };
 
+  const openVotes = function() {
+    if ($('#recentVotes').children().length) {
+      return;
+    }
+
+    const path = 'https://www.govtrack.us/api/v2/vote?sort=-created';
+    const query = '';
+    ajax(renderVotes, path, query, 'recentVotes');
+  }
+
+  const openBill = function (id) {
+    const path = 'https://www.govtrack.us/api/v2/bill/' + id;
+    const queries = '';
+    ajax(renderBill, path, queries, id);
+  }
+
 // EVENT LISTENERS
+
+  $('#recentVotes').on('click','.card', (event) => {
+    let id;
+    if (!$(event.target).attr('name')) {
+      id = $(event.target).parents('.card').attr('name');
+    } else {
+      id = $(event.target).attr('name');
+    }
+    openBill(id);
+  });
 
   $('#back').on('click', goBack);
 
@@ -368,6 +492,7 @@
         openPage($('#searchBox'));
         break;
       case 'bills' :
+        openVotes();
         openPage($('#billBox'));
         break;
       default:

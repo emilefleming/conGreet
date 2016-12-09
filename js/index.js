@@ -152,6 +152,9 @@
   const renderAddresses = function(response) {
     const $optionBox = $('#optionBox');
     for (const result of response.results) {
+      if (result.accuracy < 1) {
+        return;
+      }
       console.log(result);
       const $option = $('<div>').addClass('addrOption card');
       const state = result.address_components.state;

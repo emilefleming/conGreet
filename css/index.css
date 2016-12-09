@@ -27,12 +27,12 @@ h4, h5 {
 }
 
 h4 {
-  font-size: 1.5em;
+  font-size: 18px;
 }
 
 h5 {
-  color: #999;
-  font-size: 1.15em;
+  color: #888;
+  font-size: 14px;
   margin: 5px 0;
 }
 
@@ -105,36 +105,28 @@ main {
 
 .shortInfo {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1 1 auto;
 }
 
-.icon {
-  background-position: center;
-  background-repeat: no-repeat;
-  flex-shrink: 0;
-  height: 50px;
-  width: 50px;
-  margin: 50px;
+.actionBox {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
 }
 
-.icon.democrat {
-  background-image: url(../img/democrat_logo.svg);
-}
-
-.icon.republican {
-  background-image: url(../img/republican_logo.svg);
-}
-
-.icon.independent {
-  border-radius: 50%;
-  background-color: #FFC900;
-}
-
-.icon:hover {
-  opacity: .5;
+.repCard {
+  display: flex;
+  border-bottom: 1px solid #CCC;
+  background-color: #EEE;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .repInfo {
-  margin: 20px;
+  padding: 10px 15px 0 15px;
+  width: 100%;
 }
 
 .party {
@@ -154,7 +146,7 @@ main {
 }
 
 .headshot {
-  height: 150px;
+  height: 125px;
 }
 
 .statBox {
@@ -259,14 +251,35 @@ main {
 .action {
   display: flex;
   align-items: center;
-  background-color: #222;
   justify-content: center;
   border-radius: 0;
   text-transform: none;
+  padding: 8px;
+  border-radius: 50%;
+  margin: 0 0 10px 20px;
+  width: 30px;
+  height: 30px;
 }
 
-.action span {
-  margin-left: 1ch;
+.action i {
+  font-size: 14px;
+}
+
+
+.democrat .action {
+  background-color: #66ABD2;
+}
+
+.republican .action {
+  background-color: #E0A7A3;
+}
+
+.democrat .callBut {
+  background-color: #007DC5;
+}
+
+.republican .callBut {
+  background-color: #F44336;
 }
 
 .profilePic {
@@ -502,7 +515,7 @@ main {
 }
 
 #repContainer {
-  padding: 0 20px 0 20px;
+  background-color: #EEE;
 }
 
 #repContainer.loading {

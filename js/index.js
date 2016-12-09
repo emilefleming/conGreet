@@ -96,32 +96,33 @@
 
   const cacheMemberCard = function(thisRep) {
     const picUrl = 'https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/' + thisRep.id + '.jpg'
-    const $card = $('<div>');
+    const $card = $('<div>').addClass('repCard');
     const $shortInfo = $('<div>').addClass('shortInfo');
     const $repInfo = $('<div>').addClass('repInfo');
     const $nameTag = $('<h4>').text(thisRep.name);
-    const $actionBox = $('<div>').addClass('row');
-    const $callButton = $('<a>').addClass('col s6 btn action');
-    const $bioButton = $('<a>').addClass('col s6 btn action bioBut');
+    const $actionBox = $('<div>').addClass('actionBox');
+    const $callButton = $('<a>').addClass('btn action callBut');
+    const $bioButton = $('<a>').addClass('btn action bioBut');
+    const $watchButton = $('<a>').addClass('btn action watchBut');
 
     $callButton.attr('href', 'tel:' + thisRep.phone);
     $callButton.append($('<i>').addClass('mdi mdi-phone'));
-    $callButton.append($('<span>').text(thisRep.phone));
     $bioButton.attr('name', thisRep.id);
     $bioButton.append($('<i>').addClass('mdi mdi-account'));
-    $bioButton.append($('<span>').text('Profile'));
-    $actionBox.append($bioButton);
+    $watchButton.attr('name', thisRep.id);
+    $watchButton.append($('<i>').addClass('mdi mdi-eye'));    $actionBox.append($bioButton);
+    $actionBox.append($watchButton);
     $actionBox.append($callButton);
-    $card.addClass('card hoverable').addClass(thisRep.party);
+    $card.addClass('card').addClass(thisRep.party);
 
-    $('<img>').attr('src', picUrl).addClass('headshot').appendTo($shortInfo);
+    $('<img>').attr('src', picUrl).addClass('headshot').appendTo($card);
     $('<span>').addClass('party').addClass(thisRep.party).text(' ' + thisRep.party).appendTo($nameTag);
     $repInfo.append($nameTag);
     $('<h5>').text(`${thisRep.description}`).appendTo($repInfo);
 
     $shortInfo.append($repInfo);
     $card.append($shortInfo);
-    $card.append($actionBox);
+    $shortInfo.append($actionBox);
     thisRep.card = $card;
   }
 

@@ -529,7 +529,8 @@
     const path = 'https://www.govtrack.us/api/v2/role?current=true&limit=999&sort=person';
     $('.button-collapse').sideNav('hide');
       if (!myInfo.state || !myInfo.district) {
-      Materialize.toast('Please enter your address', 4000);
+        Materialize.toast('Please enter your address', 4000);
+        openPage($('#enterZip'));
       return;
     }
     empty();

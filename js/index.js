@@ -155,7 +155,6 @@
       if (result.accuracy < 1) {
         return;
       }
-      console.log(result);
       const $option = $('<div>').addClass('addrOption card');
       const state = result.address_components.state;
       const dist = result.fields.congressional_district.district_number;

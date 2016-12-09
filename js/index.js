@@ -103,15 +103,12 @@
     const $actionBox = $('<div>').addClass('actionBox');
     const $callButton = $('<a>').addClass('btn action callBut');
     const $bioButton = $('<a>').addClass('btn action bioBut');
-    const $watchButton = $('<a>').addClass('btn action watchBut');
 
     $callButton.attr('href', 'tel:' + thisRep.phone);
     $callButton.append($('<i>').addClass('mdi mdi-phone'));
     $bioButton.attr('name', thisRep.id);
     $bioButton.append($('<i>').addClass('mdi mdi-account'));
-    $watchButton.attr('name', thisRep.id);
-    $watchButton.append($('<i>').addClass('mdi mdi-eye'));    $actionBox.append($bioButton);
-    $actionBox.append($watchButton);
+    $actionBox.append($bioButton);
     $actionBox.append($callButton);
     $card.addClass('card').addClass(thisRep.party);
 
@@ -345,6 +342,7 @@
   }
 
   const renderMem = function(data, type, percTotal = 0, i = 0) {
+    $('#repContainer').addClass('loading');
     if (i === data.objects.length) {
       $loader.remove();
       $loadIn.width('0');

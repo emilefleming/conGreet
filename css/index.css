@@ -550,10 +550,6 @@ small {
   margin: 0 18px;
 }
 
-#repContainer {
-  background-color: #EEE;
-}
-
 #repContainer.loading {
   overflow: hidden;
 }

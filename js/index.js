@@ -483,6 +483,9 @@
       return;
     }
     const $page = $('<div>').attr('id', id).addClass('page');
+    $('main').append($page);
+    openPage($page);
+
     const $title = $('<div>').addClass('billTitle').text(data.display_number);
     const $info = $('<div>').addClass('billData');
     const $description = $('<p>').text(data.title_without_number);
@@ -492,6 +495,7 @@
     const path = 'https://www.govtrack.us/api/v2/role?current=true&person=';
     const votesPath = 'https://www.govtrack.us/api/v2/vote?sort=-created&related_bill='
     const query = data.sponsor.id;
+
 
     $sponsors.append($('<h5>').text('Sponsor'));
     $sponsor.append(renderSmallCard(data.sponsor.bioguideid, data.sponsor.name, data.sponsor.id));
@@ -517,8 +521,6 @@
 
     $page.append($title);
     $page.append($info);
-    $('main').append($page);
-    openPage($page);
   }
 
 // PAGE FUNCTIONS

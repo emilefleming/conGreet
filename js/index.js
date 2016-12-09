@@ -627,7 +627,7 @@
     $('#stateCheckWrapper').toggleClass('hidden');
   });
 
-  $('#optionBox').on('click', (event) =>{
+  $('#optionBox').on('click', '.card', (event) =>{
     let id;
     if (!$(event.target).attr('name')) {
       id = $(event.target).parents('.addrOption').attr('name');

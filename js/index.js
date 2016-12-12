@@ -25,15 +25,15 @@
     'Sept',
     'Oct',
     'Nov',
-    'Dec',
-  ]
+    'Dec'
+  ];
 
 // DATA MANIPULATION FUNCTION
 
   const formatTime = function(rawTime) {
     const today = new Date().toISOString();
-    const todayArr = today.match(/(\d+)\-(\d+)\-(\d+)T(\d+)\:(\d+)\:(\d+)/);
-    const timeArr = rawTime.match(/(\d+)\-(\d+)\-(\d+)T(\d+)\:(\d+)\:(\d+)/);
+    const todayArr = today.match(/(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)/);
+    const timeArr = rawTime.match(/(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)/);
     let year = '';
     const month = months[parseInt(timeArr[2]) - 1];
     const time = `${parseInt(timeArr[4])}:${timeArr[5]}`;
@@ -43,39 +43,40 @@
     }
 
     if (todayArr[1] !== timeArr[1]) {
-      year = timeArr[1] + ' ';
+      year = `${timeArr[1]} `;
     }
 
-
     return `${month} ${timeArr[3]}, ${year}${time} UTC`;
-  }
+  };
 
 // NAV FUNCTIONS
 
   const empty = function() {
     $repContainer.empty();
     $repContainer.append($loader);
-  }
+  };
 
   const openPage = function(page) {
     $('.page').addClass('hidden');
     page.removeClass('hidden');
     recentPages.push(page);
-  }
+  };
 
   const goBack = function() {
     if (recentPages.length < 2) {
       openPage($('#enterZip'));
+
       return;
     }
     recentPages.pop();
     openPage(recentPages.pop());
-  }
+  };
 
 // AJAX FUNCTIONS
 
   const ajax = function(callBack, path, queryIn, extra) {
     let queries = '';
+
     if (queryIn) {
       queries = queryIn;
     }
@@ -84,18 +85,18 @@
       url: path + queries
     });
 
-    $xhr.done((data) =>{
+    $xhr.done((data) => {
       if ($xhr.status !== 200) {
         return;
       }
       callBack(data, extra);
     });
-  }
+  };
 
 // CACHE FUNCTIONS
 
   const cacheMemberCard = function(thisRep) {
-    const picUrl = 'https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/' + thisRep.id + '.jpg'
+    const picUrl = `https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/${thisRep.id}.jpg`;
     const $card = $('<div>').addClass('repCard');
     const $shortInfo = $('<div>').addClass('shortInfo');
     const $repInfo = $('<div>').addClass('repInfo');
@@ -104,7 +105,7 @@
     const $callButton = $('<a>').addClass('btn action callBut');
     const $bioButton = $('<a>').addClass('btn action bioBut');
 
-    $callButton.attr('href', 'tel:' + thisRep.phone);
+    $callButton.attr('href', `tel:${thisRep.phone}`);
     $callButton.append($('<i>').addClass('mdi mdi-phone'));
     $bioButton.attr('name', thisRep.id);
     $bioButton.append($('<i>').addClass('mdi mdi-account'));
@@ -113,7 +114,9 @@
     $card.addClass('card').addClass(thisRep.party);
 
     $('<img>').attr('src', picUrl).addClass('headshot').appendTo($card);
-    $('<span>').addClass('party').addClass(thisRep.party).text(' ' + thisRep.party).appendTo($nameTag);
+    const $partyText = $('<span>').addClass('party').addClass(thisRep.party);
+
+    $partyText.text(` ${thisRep.party}`).appendTo($nameTag);
     $repInfo.append($nameTag);
     $('<h5>').text(`${thisRep.description}`).appendTo($repInfo);
 
@@ -121,7 +124,7 @@
     $card.append($shortInfo);
     $shortInfo.append($actionBox);
     thisRep.card = $card;
-  }
+  };
 
   const cacheMember = function(member) {
     if (repData[member.person.bioguideid]) {
@@ -129,9 +132,10 @@
     }
     repData[member.person.bioguideid] = {};
     const thisRep = repData[member.person.bioguideid];
+
     thisRep.id = member.person.bioguideid;
     thisRep.govTrackId = member.person.id;
-    thisRep.name = member.person.firstname + ' ' + member.person.lastname;
+    thisRep.name = `${member.person.firstname} ${member.person.lastname}`;
     thisRep.party = member.party.toLowerCase();
     thisRep.description = member.description;
     thisRep.address = member.extra.address;
@@ -141,9 +145,9 @@
     thisRep.twitter = member.person.twitterid;
     thisRep.youtube = member.person.youtubeid;
     cacheMemberCard(thisRep);
-  }
+  };
 
-  const preCacheMember = function (data) {
+  const preCacheMember = function(data) {
     cacheMember(data.objects[0]);
   };
 
@@ -151,6 +155,7 @@
 
   const renderAddresses = function(response) {
     const $optionBox = $('#optionBox');
+
     for (const result of response.results) {
       if (result.accuracy < 1) {
         return;
@@ -164,13 +169,14 @@
       $option.append($('<div>').text(result.formatted_address));
       $optionBox.append($option);
     }
-  }
+  };
 
-  const renderContactInfo = function (member) {
+  const renderContactInfo = function(member) {
     const $contactBox = $('<div>').addClass('row contactBox');
-    const $contactStats = $('<div>').addClass('contactStats col s12 m5 offset-m1');
+    const $contactStats = $('<div>');
     const $socialStats = $('<div>').addClass('col s12 m5');
 
+    $contactStats.addClass('contactStats col s12 m5 offset-m1');
     if (repData[member].address) {
       const address = repData[member].address;
       let addrTop = '';
@@ -179,18 +185,20 @@
       const washLoc = address.indexOf('Washington');
       const $address = $('<div>').addClass('stat');
       const $addrBox = $('<div>');
+
       if (semiLoc > -1) {
         addrTop = address.slice(0, semiLoc);
-        addrBot = address.slice(semiLoc + 1, address.length)
-      } else {
+        addrBot = address.slice(semiLoc + 1, address.length);
+      }
+      else {
         addrTop = address.slice(0, washLoc);
-        addrBot = address.slice(washLoc, address.length)
+        addrBot = address.slice(washLoc, address.length);
       }
       $address.append($('<i>').addClass('mdi mdi-domain'));
       $addrBox.append($('<div>').text(repData[member].name));
       $addrBox.append($('<div>').text(addrTop));
       $addrBox.append($('<div>').text(addrBot));
-      $address.append($addrBox)
+      $address.append($addrBox);
       $address.appendTo($contactStats);
     }
 
@@ -202,45 +210,46 @@
       const $stat = $('<div>').addClass('stat');
       const $link = $('<a>').attr('target', obj.target);
 
-      $stat.append($('<i>').addClass('mdi mdi-' + obj.icon));
+      $stat.append($('<i>').addClass(`mdi mdi-${obj.icon}`));
       $stat.append($link.attr('href', obj.url).text(obj.text));
+
       return $stat;
-    }
+    };
 
     const phone = {
       text: repData[member].phone,
-      url: 'tel:' + repData[member].phone,
+      url: `tel:${repData[member].phone}`,
       icon: 'phone',
       target: ''
-    }
+    };
 
     const contact = {
       text: 'Contact Form',
       url: repData[member].contact,
       icon: 'email',
       target: '_blank'
-    }
+    };
 
     const website = {
       text: repData[member].website,
       url: repData[member].website,
       icon: 'earth',
       target: '_blank'
-    }
+    };
 
     const twitter = {
       text: repData[member].twitter,
-      url: 'https://twitter.com/' + repData[member].twitter,
+      url: `https://twitter.com/${repData[member].twitter}`,
       icon: 'twitter',
       target: '_blank'
-    }
+    };
 
     const youtube = {
       text: repData[member].youtube,
-      url: 'https://youtube.com/user/' + repData[member].youtube,
+      url: `https://youtube.com/user/${repData[member].youtube}`,
       icon: 'youtube-play',
       target: '_blank'
-    }
+    };
 
     $contactStats.append(buildLink(phone));
     $contactStats.append(buildLink(contact));
@@ -253,26 +262,10 @@
     $contactBox.append($socialStats);
 
     return $contactBox;
-  }
-
-  const recentVideos = function (member) {
-    const username = repData[member].youtube;
-    const path = `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&key=AIzaSyDC5Xq8x4BqCFQRBw6uKF6PFw_5FSfwFFk`;
-    const queries = '&forUsername=' + username;
-
-    ajax(getRecentVideos, path, queries, member);
   };
 
-  const getRecentVideos = function (data, member) {
-    const id = data.items[0].contentDetails.relatedPlaylists.uploads;
-    const path = `https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails,snippet&key=AIzaSyDC5Xq8x4BqCFQRBw6uKF6PFw_5FSfwFFk`;
-    const queries = '&playlistId=' + id;
-
-    ajax(renderRecentVideos, path, queries, member);
-  };
-
-  const renderRecentVideos = function (data, member) {
-    const $vidBox = $('#' + member + ' .vidBox');
+  const renderRecentVideos = function(data, member) {
+    const $vidBox = $(`#${member} .vidBox`);
 
     $vidBox.append($('<h5>').text('Recent Videos'));
     for (const video of data.items) {
@@ -280,12 +273,28 @@
       const $vidWrap = $('<div>').addClass('videoWrapper');
       const $vidTitle = $('<h6>').text(video.snippet.title);
 
-      $frame.attr('src', 'https://www.youtube-nocookie.com/embed/' + video.contentDetails.videoId + '?showinfo=0');
+      $frame.attr('src', `https://www.youtube-nocookie.com/embed/${video.contentDetails.videoId}?showinfo=0`);
       $frame.attr('allowfullscreen', '').attr('frameborder', '0');
       $frame.appendTo($vidWrap);
       $vidWrap.appendTo($vidBox);
       $vidTitle.appendTo($vidBox);
     }
+  };
+
+  const getRecentVideos = function(data, member) {
+    const id = data.items[0].contentDetails.relatedPlaylists.uploads;
+    const path = 'https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails,snippet&key=AIzaSyDC5Xq8x4BqCFQRBw6uKF6PFw_5FSfwFFk';
+    const queries = `&playlistId=${id}`;
+
+    ajax(renderRecentVideos, path, queries, member);
+  };
+
+  const recentVideos = function(member) {
+    const username = repData[member].youtube;
+    const path = 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&key=AIzaSyDC5Xq8x4BqCFQRBw6uKF6PFw_5FSfwFFk';
+    const queries = `&forUsername=${username}`;
+
+    ajax(getRecentVideos, path, queries, member);
   };
 
   const recentRepVotes = function(data, target) {
@@ -294,13 +303,14 @@
       target.append(renderVote(vote.vote, target));
     }
     tempReps.length = 0;
-  }
+  };
 
   const renderBio = function(member) {
-    const memberPage = '#' + member;
+    const memberPage = `#${member}`;
 
     if ($(memberPage).length) {
       openPage($(memberPage));
+
       return;
     }
 
@@ -310,11 +320,13 @@
     const $title = $('<div>').addClass('title');
 
     $bioPage.addClass(repData[member].party);
-    $('<img>').attr('src', 'https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/' + member + '.jpg').addClass('profilePic').appendTo($namePic);
+    $('<img>').attr('src', `https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/${member}.jpg`).addClass('profilePic').appendTo($namePic);
     const $name = $('<h3>').text(repData[member].name);
     const $party = $('<h3>');
-    $party.text(' ' + repData[member].party).addClass('prt');
+
+    $party.text(` ${repData[member].party}`).addClass('prt');
     const $repTitle = $('<h4>').text(repData[member].description);
+
     $namePic.append($name);
     $bioPage.append($namePic);
     $title.append($party);
@@ -335,13 +347,13 @@
     tempReps.push(repData[member].govTrackId);
     ajax(recentRepVotes, path, queries, $recentVotes);
     if (repData[member].youtube) {
-      recentVideos(member)
+      recentVideos(member);
     }
 
     $bioPage.append($profileData);
     $bioPage.appendTo($('main'));
     openPage($bioPage);
-  }
+  };
 
   const renderMem = function(data, type, percTotal = 0, i = 0) {
     $('#repContainer').addClass('loading');
@@ -349,11 +361,13 @@
       $loader.remove();
       $loadIn.width('0');
       $('#repContainer').removeClass('loading');
+
       return;
     }
 
     const legislature = data.objects;
     const member = legislature[i];
+
     cacheMember(member);
     const thisRep = repData[member.person.bioguideid];
     const percEach = 1 / legislature.length;
@@ -365,12 +379,13 @@
     $repContainer.append(thisRep.card.clone());
     percTotal += percEach * 100;
     const width = Math.round(percTotal) + '%';
+
     $loadIn.width(width);
     i++;
-    window.setTimeout(()=> {
-      renderMem(data, type, percTotal, i++)
+    window.setTimeout(() => {
+      renderMem(data, type, percTotal, i++);
     }, 1);
-  }
+  };
 
   const renderRepVotes = function (data, target) {
     for (const voter of data.objects) {
@@ -652,9 +667,11 @@
 
   $repContainer.on('click', '.bioBut', (event) => {
     let id;
+
     if (!event.target.name) {
       id = event.target.parentNode.name;
-    } else {
+    }
+    else {
       id = event.target.name;
     }
     renderBio(id);
@@ -664,9 +681,12 @@
     event.preventDefault();
     const path = 'https://api.geocod.io/v1/geocode?q=';
     const input = $('#enterZip input').val();
-    const query = input + '&api_key=15850078f71371512517105178513041fff87f3&fields=cd';
+    const key = '&api_key=15850078f71371512517105178513041fff87f3&fields=cd';
+    const query = input + key;
+
     if (!input.trim()) {
       Materialize.toast('Please enter an address', 4000);
+
       return;
     }
     ajax(renderAddresses, path, query);

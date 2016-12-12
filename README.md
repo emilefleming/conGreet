@@ -1,5 +1,7 @@
 # conGreet
 
+**NOTE:** Due to time constraints this app is currently only optimized for mobile phone. Please view it their or using your browser's dev tools to simulate an appropriate viewport size.
+
 Watch the video below for a demonstration of the app as it exists on December 12th, 2016 or about 40-50 hours into the project.
 
 <iframe src="https://player.vimeo.com/video/195323300" width="640" height="1138" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

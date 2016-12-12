@@ -342,7 +342,8 @@
     $profileData.append($vidBox);
 
     const path = 'https://www.govtrack.us/api/v2/vote_voter?';
-    const queries = `person=${repData[member].govTrackId}&sort=-created&limit=5`;
+    const gtId = repData[member].govTrackId;
+    const queries = `person=${gtId}&sort=-created&limit=5`;
 
     tempReps.push(repData[member].govTrackId);
     ajax(recentRepVotes, path, queries, $recentVotes);
@@ -378,7 +379,7 @@
 
     $repContainer.append(thisRep.card.clone());
     percTotal += percEach * 100;
-    const width = Math.round(percTotal) + '%';
+    const width = `${Math.round(percTotal)}%`;
 
     $loadIn.width(width);
     i++;
@@ -387,39 +388,37 @@
     }, 1);
   };
 
-  const renderRepVotes = function (data, target) {
+  const renderRepVotes = function(data, target) {
     for (const voter of data.objects) {
-      const $image = $('<img>').attr('src', 'https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/' + voter.person.bioguideid + '.jpg')
+      const $image = $('<img>').attr('src', `https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/${voter.person.bioguideid}.jpg`);
       const $vote = $('<div>').addClass('smallVote').append($image);
       const $voteType = $('<div>');
 
       if (voter.option.key === '+') {
-        $voteType.addClass('yesVote')
-      } else if (voter.option.key === '-') {
-        $voteType.addClass('noVote')
-      } else {
-        $voteType.addClass('nullVote')
+        $voteType.addClass('yesVote');
+      }
+      else if (voter.option.key === '-') {
+        $voteType.addClass('noVote');
+      }
+      else {
+        $voteType.addClass('nullVote');
       }
       $vote.append($voteType);
       target.append($vote);
     }
-  }
-
-  const renderVotes = function (data, target) {
-    for (const vote of data.objects) {
-      target.append(renderVote(vote));
-    };
-  }
+  };
 
   const renderVote = function(vote) {
     const $card = $('<div>').addClass('card voteCard');
     const $titleBlock = $('<div>').addClass('titleBlock');
     const $title = $('<div>');
+
     if (vote.related_bill) {
       if (vote.related_bill.id) {
         $title.text(vote.related_bill.display_number);
         $card.attr('name', vote.related_bill.id);
-      } else {
+      }
+      else {
         $card.attr('name', vote.related_bill);
       }
     }
@@ -429,16 +428,18 @@
     const $details = $('<p>').text(vote.question_details);
     const $breakdown = $('<div>').addClass('breakdown');
     const $voteBreakdown = $('<div>').addClass('voteBreakdown');
-    const percentText = (vote.percent_plus * 100).toFixed(1) + '%';
-    const $percent = $('<span>').text(percentText).appendTo($voteBreakdown);
+    const percentText = `${(vote.percent_plus * 100).toFixed(1)}%`;
+
+    $('<span>').text(percentText).appendTo($voteBreakdown);
     const $myRepsBox = $('<div>').addClass('myRepVotes');
     const allMyReps = myReps.concat(watchedReps);
-    const path = 'https://www.govtrack.us/api/v2/vote_voter?vote=' + vote.id;
+    const path = `https://www.govtrack.us/api/v2/vote_voter?vote=${vote.id}`;
 
     if (tempReps.length) {
       let queries = '';
+
       for (const member of tempReps) {
-        queries += '&person=' + member;
+        queries += `&person=${member}`;
       }
       ajax(renderRepVotes, path, queries, $myRepsBox);
     }
@@ -446,10 +447,11 @@
     if (allMyReps.length) {
       const getVotesFor = allMyReps.filter((id) => {
         return id !== tempReps[0];
-      })
+      });
       let queries = '';
+
       for (const member of getVotesFor) {
-        queries += '&person=' + member;
+        queries += `&person=${member}`;
       }
       ajax(renderRepVotes, path, queries, $myRepsBox);
     }
@@ -468,12 +470,19 @@
     $card.append($details);
     $card.append($breakdown);
     $card.append($myRepsBox);
+
     return $card;
-  }
+  };
+
+  const renderVotes = function(data, target) {
+    for (const vote of data.objects) {
+      target.append(renderVote(vote));
+    }
+  };
 
   const renderSmallCard = function(bioguideid, name, id) {
     const $card = $('<div>').addClass('smallCard col s12 m6 l4');
-    const $img = $('<img>').attr('src', 'https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/' + bioguideid + '.jpg');
+    const $img = $('<img>').attr('src', `https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/${bioguideid}.jpg`);
 
     $card.append($img);
     $card.append($('<h4>').text(name));
@@ -482,24 +491,27 @@
       renderBio(bioguideid);
     });
 
-    return $card
-  }
+    return $card;
+  };
 
-  const renderBillVotes = function (data, id) {
+  const renderBillVotes = function(data, id) {
     const $voteBox = $('<div>').addClass('votesForBill');
+
     $voteBox.append($('<h5>').text('Votes'));
     for (const vote of data.objects) {
       $voteBox.append(renderVote(vote));
     }
-    $('#' + id + ' .billData').append($voteBox);
-  }
+    $(`#${id} .billData`).append($voteBox);
+  };
 
   const renderBill = function(data, id) {
-    if ($('#' + id).length) {
-      openPage($('#' + id));
+    if ($(`#${id}`).length) {
+      openPage($(`#${id}`));
+
       return;
     }
     const $page = $('<div>').attr('id', id).addClass('page');
+
     $('main').append($page);
     openPage($page);
 
@@ -510,9 +522,8 @@
     const $sponsor = $('<div>').addClass('row pad20');
     const $coSponsors = $('<div>').addClass('row pad20');
     const path = 'https://www.govtrack.us/api/v2/role?current=true&person=';
-    const votesPath = 'https://www.govtrack.us/api/v2/vote?sort=-created&related_bill='
+    const votesPath = 'https://www.govtrack.us/api/v2/vote?sort=-created&related_bill=';
     const query = data.sponsor.id;
-
 
     $sponsors.append($('<h5>').text('Sponsor'));
     $sponsor.append(renderSmallCard(data.sponsor.bioguideid, data.sponsor.name, data.sponsor.id));
@@ -531,23 +542,25 @@
 
     $sponsors.append($coSponsors);
 
-    ajax(renderBillVotes,votesPath,id,id);
+    ajax(renderBillVotes, votesPath, id, id);
 
     $info.append($description);
     $info.append($sponsors);
 
     $page.append($title);
     $page.append($info);
-  }
+  };
 
 // PAGE FUNCTIONS
 
-  const openMyReps = function(){
+  const openMyReps = function() {
     const path = 'https://www.govtrack.us/api/v2/role?current=true&limit=999&sort=person';
+
     $('.button-collapse').sideNav('hide');
-      if (!myInfo.state || !myInfo.district) {
-        Materialize.toast('Please enter your address', 4000);
-        openPage($('#enterZip'));
+    if (!myInfo.state || !myInfo.district) {
+      Materialize.toast('Please enter your address', 4000);
+      openPage($('#enterZip'));
+
       return;
     }
     empty();
@@ -563,22 +576,26 @@
 
     const path = 'https://www.govtrack.us/api/v2/vote?sort=-created';
     const query = '';
-    ajax(renderVotes, path, query, $('#recentVotes'));
-  }
 
-  const openBill = function (id) {
-    const path = 'https://www.govtrack.us/api/v2/bill/' + id;
+    ajax(renderVotes, path, query, $('#recentVotes'));
+  };
+
+  const openBill = function(id) {
+    const path = `https://www.govtrack.us/api/v2/bill/${id}`;
     const queries = '';
+
     ajax(renderBill, path, queries, id);
-  }
+  };
 
 // EVENT LISTENERS
 
-  $('main').on('click','.voteCard', (event) => {
+  $('main').on('click', '.voteCard', (event) => {
     let id;
+
     if (!$(event.target).attr('name')) {
       id = $(event.target).parents('.voteCard').attr('name');
-    } else {
+    }
+    else {
       id = $(event.target).attr('name');
     }
     if (id) {
@@ -589,7 +606,7 @@
   $('#back').on('click', goBack);
 
   $('nav ul').on('click', 'a', (event) => {
-    $('#sidenav-overlay').trigger( "click" );
+    $('#sidenav-overlay').trigger('click');
     switch (event.target.id) {
       case 'zipLink':
         openPage($('#enterZip'));
@@ -617,6 +634,7 @@
     let stateFilter = '';
     const parties = $('select[name=filterParty]').val();
     const chambers = $('select[name=filterChamber]').val();
+
     if (!parties.length) {
       Materialize.toast('At least one party must be selected', 4000);
     }
@@ -631,11 +649,13 @@
     }
     if ($('#stateSwitch:checked').length) {
       const states = $('#stateCheckWrapper input:checked');
+
       for (const state of states) {
         stateFilter += '&state=' + state.id;
       }
     }
     const filters = partyFilter + chamberFilter + stateFilter;
+
     openPage($repContainer);
     empty();
     ajax(renderMem, path, filters);
@@ -645,17 +665,20 @@
     $('#stateCheckWrapper').toggleClass('hidden');
   });
 
-  $('#optionBox').on('click', '.card', (event) =>{
+  $('#optionBox').on('click', '.card', (event) => {
     let id;
+
     if (!$(event.target).attr('name')) {
       id = $(event.target).parents('.addrOption').attr('name');
-    } else {
+    }
+    else {
       id = $(event.target).attr('name');
     }
 
     const path = 'https://www.govtrack.us/api/v2/role?current=true&limit=999&sort=person';
     const state = id.slice(0, 2);
     const district = id.slice(2, id.length);
+
     myInfo.state = state;
     myInfo.district = district;
     empty();
@@ -694,5 +717,5 @@
     $('#optionBox').empty();
     $('nav').removeClass('hidden');
   });
-  $(".button-collapse").sideNav();
+  $('.button-collapse').sideNav();
 })();

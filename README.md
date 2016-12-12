@@ -1,6 +1,6 @@
 # conGreet
 
-### Descritption
+### Description
 
 conGreet is a web app that allows the user to quickly and easily find their elected officials in the U.S. Congress. Users are presented with small cards for their officials that contain links to quickly call them and voice their opinion.
 

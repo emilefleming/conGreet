@@ -1,6 +1,15 @@
 # conGreet
 
-conGreet is a web app that allows the user to quickly and easily find their elected officials in the U.S. Congress.
+### Descritption
+
+conGreet is a web app that allows the user to quickly and easily find their elected officials in the U.S. Congress. Users are presented with small cards for their officials that contain links to quickly call them and voice their opinion.
+
+### Tech
+
+This project is built with HTML5, CSS3, and JavaScript ES6. It also uses the Materialize framework and jQuery.
+
+
+### Features
 
 Users start by entering their address and are presented with their three representatives, two in the Senate and one in the House.
 
@@ -10,3 +19,17 @@ Watch the video below for a demonstration of the app as it exists on December 12
 
 <iframe src="https://player.vimeo.com/video/195323300" width="640" height="1138" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 <p><a href="https://vimeo.com/195323300">conGreet</a> from <a href="https://vimeo.com/user60215184">Emile Fleming</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+## Future development
+
+In no particular order this project would really benefit from the following features:
+
+1. Watch list to track arbitrary legislators
+
+1. More powerful search Features
+
+1. Additional information on individuals
+
+1. Additional information on bills
+
+1. Newsfeed including tweets, videos, and votes
